@@ -12,10 +12,11 @@ import (
 
 // Client holds the location of the directory and files.
 type Client struct {
-	Directory    string
-	CurrentFile  string
-	HistoryFile  string
-	SettingsFile string
+	ConfigDirectory    string
+	DataDirectory      string
+	CurrentFile  	   string
+	HistoryFile        string
+	SettingsFile       string
 }
 
 // State is a collection of all state.
@@ -33,7 +34,8 @@ const (
 // NewClient returns a new Client with the given directory. If the directory is
 // an empty string, the default directory of ~/.pomodoro is used.
 func NewClient(directory string) (*Client, error) {
-	var d string
+	var cd string
+	var dd string
 	var u *user.User
 	var err error
 
@@ -42,19 +44,22 @@ func NewClient(directory string) (*Client, error) {
 		if err != nil {
 			return nil, err
 		}
-		d = path.Join(u.HomeDir, ".pomodoro")
+		cd = path.Join(u.HomeDir, ".config", "pomodoro")
+		dd = path.Join(u.HomeDir, ".local", "pomodoro")
 	} else {
-		d, err = filepath.Abs(directory)
+		cd, err = filepath.Abs(directory)
+		dd, err = filepath.Abs(directory)
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	c := &Client{
-		Directory:    d,
-		CurrentFile:  path.Join(d, "current"),
-		HistoryFile:  path.Join(d, "history"),
-		SettingsFile: path.Join(d, "settings"),
+		ConfigDirectory:    cd,
+		DataDirectory:      dd,
+		CurrentFile:  path.Join(dd, "current"),
+		HistoryFile:  path.Join(dd, "history"),
+		SettingsFile: path.Join(cd, "settings"),
 	}
 
 	return c, nil
@@ -240,8 +245,21 @@ func (c *Client) Clear() error {
 	return c.writeCurrent(EmptyPomodoro())
 }
 
+func (c *Client) ensureConfigDirectory() error {
+	return os.MkdirAll(c.ConfigDirectory, 0755)
+}
+
+func (c *Client) ensureDataDirectory() error {
+	return os.MkdirAll(c.DataDirectory, 0755)
+}
+
 func (c *Client) ensureDirectory() error {
-	return os.MkdirAll(c.Directory, 0755)
+	var err error
+	err = c.ensureConfigDirectory()
+	if err != nil {
+		return err
+	}
+	return c.ensureDataDirectory()
 }
 
 func (c *Client) writeCurrent(p *Pomodoro) error {

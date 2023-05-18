@@ -1,4 +1,4 @@
-module github.com/open-pomodoro/go-openpomodoro
+module github.com/drpaepper/go-openpomodoro
 
 go 1.12
 
