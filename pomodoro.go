@@ -143,6 +143,10 @@ func (p *Pomodoro) DurationMinutes() int {
 	return round(p.Duration.Minutes())
 }
 
+func (p *Pomodoro) DurationSeconds() int {
+	return round(p.Duration.Seconds())
+}
+
 // EndTime returns the time the Pomodoro would end.
 func (p *Pomodoro) EndTime() time.Time {
 	return p.StartTime.Add(p.Duration)
@@ -181,6 +185,10 @@ func (p *Pomodoro) Remaining() time.Duration {
 // seconds before it completes.
 func (p *Pomodoro) RemainingMinutes() int {
 	return round(p.Remaining().Minutes())
+}
+
+func (p *Pomodoro) RemainingSeconds() int {
+	return round(p.Remaining().Seconds())
 }
 
 func bytesAllWhitespace(b []byte) bool {
