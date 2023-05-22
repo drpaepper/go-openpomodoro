@@ -12,11 +12,11 @@ import (
 
 // Client holds the location of the directory and files.
 type Client struct {
-	ConfigDirectory    string
-	DataDirectory      string
-	CurrentFile  	   string
-	HistoryFile        string
-	SettingsFile       string
+	ConfigDirectory string
+	DataDirectory   string
+	CurrentFile     string
+	HistoryFile     string
+	SettingsFile    string
 }
 
 // State is a collection of all state.
@@ -55,11 +55,11 @@ func NewClient(directory string) (*Client, error) {
 	}
 
 	c := &Client{
-		ConfigDirectory:    cd,
-		DataDirectory:      dd,
-		CurrentFile:  path.Join(dd, "current"),
-		HistoryFile:  path.Join(dd, "history"),
-		SettingsFile: path.Join(cd, "settings"),
+		ConfigDirectory: cd,
+		DataDirectory:   dd,
+		CurrentFile:     path.Join(dd, "current"),
+		HistoryFile:     path.Join(dd, "history"),
+		SettingsFile:    path.Join(cd, "settings"),
 	}
 
 	return c, nil
@@ -282,23 +282,27 @@ func (c *Client) appendHistory(p *Pomodoro) error {
 		return nil
 	}
 
-	b, err := p.MarshalText()
+	if p.Description != "BREAK" {
+		b, err := p.MarshalText()
 
-	b = bytes.Replace(b, charNewline, charSpace, -1)
+		b = bytes.Replace(b, charNewline, charSpace, -1)
 
-	f, err := os.OpenFile(c.HistoryFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, FilePerm)
-	if err != nil {
+		f, err := os.OpenFile(c.HistoryFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, FilePerm)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		_, err = f.Write(b)
+		if err != nil {
+			return err
+		}
+
+		_, err = f.Write(charNewline)
 		return err
+	} else {
+		return nil
 	}
-	defer f.Close()
-
-	_, err = f.Write(b)
-	if err != nil {
-		return err
-	}
-
-	_, err = f.Write(charNewline)
-	return err
 }
 
 func (c *Client) updateHistory(p *Pomodoro) error {
