@@ -50,6 +50,13 @@ func EmptyPomodoro() *Pomodoro {
 	return &Pomodoro{}
 }
 
+func EarlyFinishPomodoro() *Pomodoro {
+	return &Pomodoro{
+		Duration:  time.Duration(0),
+		StartTime: time.Now(),
+	}
+}
+
 // String return a string representation of the Pomodoro.
 func (p Pomodoro) String() string {
 	b, _ := p.MarshalText()
