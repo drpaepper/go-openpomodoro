@@ -208,10 +208,13 @@ func (c *Client) Finish() error {
 
 	if p.Description != "BREAK" {
 		p.Duration = timeFunc().Sub(p.StartTime)
-		return c.updateHistory(p)
-	} else {
-		return c.writeCurrent(EarlyFinishPomodoro())
+		err = c.updateHistory(p)
+		if err != nil {
+			return err
+		}
 	}
+
+	return c.writeCurrent(EarlyFinishPomodoro())
 
 }
 
