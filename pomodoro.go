@@ -52,7 +52,7 @@ func EmptyPomodoro() *Pomodoro {
 
 func EarlyFinishPomodoro() *Pomodoro {
 	return &Pomodoro{
-		Duration:  0 * time.Minute(),
+		Duration:  0 * time.Minute,
 		StartTime: time.Now(),
 	}
 }
