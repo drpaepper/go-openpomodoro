@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/crufter/copyrecur v0.0.0-20160628173408-c927f40d0726
 	github.com/justincampbell/go-logfmt v0.2.1
+	github.com/kr/logfmt v0.0.0-20210122060352-19f9bcb100e6 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
