@@ -205,15 +205,14 @@ func (c *Client) Finish() error {
 	if err != nil {
 		return err
 	}
+
 	if p.Description != "BREAK" {
 		p.Duration = timeFunc().Sub(p.StartTime)
-		err = c.updateHistory(p)
-		if err != nil {
-			return err
-		}
+		return c.updateHistory(p)
+	} else {
+		return c.writeCurrent(EarlyFinishPomodoro())
 	}
 
-	return c.writeCurrent(EarlyFinishPomodoro())
 }
 
 // Cancel cancels any current Pomodoro by emptying the `current` file, and
