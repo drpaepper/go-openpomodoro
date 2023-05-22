@@ -201,11 +201,6 @@ func (c *Client) Finish() error {
 		return err
 	}
 
-	err = c.Clear()
-	if err != nil {
-		return err
-	}
-
 	p.Duration = timeFunc().Sub(p.StartTime)
 	return c.updateHistory(p)
 }
