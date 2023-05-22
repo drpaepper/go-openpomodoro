@@ -212,9 +212,10 @@ func (c *Client) Finish() error {
 		if err != nil {
 			return err
 		}
+		return c.writeCurrent(EarlyFinishPomodoro(false))
 	}
 
-	return c.writeCurrent(EarlyFinishPomodoro())
+	return c.writeCurrent(EarlyFinishPomodoro(true))
 
 }
 

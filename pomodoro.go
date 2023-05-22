@@ -50,10 +50,15 @@ func EmptyPomodoro() *Pomodoro {
 	return &Pomodoro{}
 }
 
-func EarlyFinishPomodoro() *Pomodoro {
+func EarlyFinishPomodoro(isBreak bool) *Pomodoro {
+	desc := ""
+	if isBreak {
+		desc = "BREAK"
+	}
 	return &Pomodoro{
-		Duration:  5 * time.Minute,
-		StartTime: time.Now().Add(-6 * time.Minute),
+		Duration:    5 * time.Minute,
+		StartTime:   time.Now().Add(-6 * time.Minute),
+		Description: desc,
 	}
 }
 
