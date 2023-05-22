@@ -51,8 +51,9 @@ func EmptyPomodoro() *Pomodoro {
 }
 
 func EarlyFinishPomodoro() *Pomodoro {
+	t, _ := time.ParseDuration("0m")
 	return &Pomodoro{
-		Duration:  0 * time.Minute,
+		Duration:  t,
 		StartTime: time.Now(),
 	}
 }
