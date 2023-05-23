@@ -212,6 +212,7 @@ func (c *Client) Finish() error {
 		if err != nil {
 			return err
 		}
+		return c.writeCurrent(EarlyFinishPomodoro(false))
 	}
 
 	if p.Tags[0] == "BREAK" {
