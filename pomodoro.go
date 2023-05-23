@@ -40,8 +40,13 @@ type Pomodoro struct {
 
 // NewPomodoro returns a Pomodoro with defaults set.
 func NewPomodoro() *Pomodoro {
+	var tags []string
+	tags = make([]string, 1)
+	tags[0] = ""
+
 	return &Pomodoro{
 		Duration: DefaultSettings.DefaultPomodoroDuration,
+		Tags:     tags,
 	}
 }
 
@@ -51,14 +56,19 @@ func EmptyPomodoro() *Pomodoro {
 }
 
 func EarlyFinishPomodoro(isBreak bool) *Pomodoro {
-	desc := ""
+	var tags []string
+	tags = make([]string, 1)
+	tags[0] = ""
+	desc := "DUMMY"
 	if isBreak {
-		desc = "BREAK"
+		tags[0] = "BREAK"
 	}
+
 	return &Pomodoro{
 		Duration:    5 * time.Minute,
 		StartTime:   time.Now().Add(-6 * time.Minute),
 		Description: desc,
+		Tags:        tags,
 	}
 }
 

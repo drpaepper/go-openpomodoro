@@ -206,16 +206,19 @@ func (c *Client) Finish() error {
 		return err
 	}
 
-	if p.Description != "BREAK" {
+	if p.Description != "DUMMY" {
 		p.Duration = timeFunc().Sub(p.StartTime)
 		err = c.updateHistory(p)
 		if err != nil {
 			return err
 		}
-		return c.writeCurrent(EarlyFinishPomodoro(false))
 	}
 
-	return c.writeCurrent(EarlyFinishPomodoro(true))
+	if p.Tags[0] == "BREAK" {
+		return c.writeCurrent(EarlyFinishPomodoro(true))
+	} else {
+		return c.writeCurrent(EarlyFinishPomodoro(false))
+	}
 
 }
 
@@ -291,7 +294,7 @@ func (c *Client) appendHistory(p *Pomodoro) error {
 		return nil
 	}
 
-	if p.Description != "BREAK" {
+	if p.Tags[0] != "BREAK" {
 		b, err := p.MarshalText()
 
 		b = bytes.Replace(b, charNewline, charSpace, -1)
