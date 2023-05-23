@@ -206,7 +206,7 @@ func (c *Client) Finish() error {
 		return err
 	}
 
-	if p.Description != "DUMMY" {
+	if p.Description != "DUMMY" && p.Description != "BREAK" {
 		p.Duration = timeFunc().Sub(p.StartTime)
 		err = c.updateHistory(p)
 		if err != nil {
@@ -240,7 +240,7 @@ func (c *Client) Cancel() error {
 		return nil
 	}
 
-	err = c.writeCurrent(EmptyPomodoro())
+	err = c.writeCurrent(EarlyFinishPomodoro(false))
 	if err != nil {
 		return err
 	}
@@ -255,7 +255,7 @@ func (c *Client) Clear() error {
 		return err
 	}
 
-	return c.writeCurrent(EmptyPomodoro())
+	return c.writeCurrent(EarlyFinishPomodoro(false))
 }
 
 func (c *Client) ensureConfigDirectory() error {
@@ -295,7 +295,7 @@ func (c *Client) appendHistory(p *Pomodoro) error {
 		return nil
 	}
 
-	if p.Tags[0] != "BREAK" {
+	if p.Description != "DUMMY" && p.Description != "BREAK" {
 		b, err := p.MarshalText()
 
 		b = bytes.Replace(b, charNewline, charSpace, -1)

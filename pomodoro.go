@@ -42,7 +42,7 @@ type Pomodoro struct {
 func NewPomodoro() *Pomodoro {
 	var tags []string
 	tags = make([]string, 1)
-	tags[0] = ""
+	tags[0] = " "
 
 	return &Pomodoro{
 		Duration: DefaultSettings.DefaultPomodoroDuration,
@@ -58,7 +58,7 @@ func EmptyPomodoro() *Pomodoro {
 func EarlyFinishPomodoro(isBreak bool) *Pomodoro {
 	var tags []string
 	tags = make([]string, 1)
-	tags[0] = ""
+	tags[0] = " "
 	desc := "DUMMY"
 	if isBreak {
 		tags[0] = "BREAK"
