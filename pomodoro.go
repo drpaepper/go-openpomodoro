@@ -203,6 +203,10 @@ func (p *Pomodoro) RemainingSeconds() int {
 	return round(p.Remaining().Seconds())
 }
 
+func (p *Pomodoro) RemainingPercentage() int {
+	return round((float64(p.RemainingSeconds()) / float64(p.DurationSeconds())) * 100)
+}
+
 func bytesAllWhitespace(b []byte) bool {
 	return len(bytes.TrimSpace(b)) == 0
 }

@@ -312,3 +312,22 @@ func Test_RemainingMinutes(t *testing.T) {
 		assert.Equal(t, expected, p.RemainingMinutes())
 	}
 }
+
+func Test_RemainingPercentage(t *testing.T) {
+	p := NewPomodoro()
+	p.Duration = 25 * time.Minute
+
+	assert.Equal(t, 0, p.RemainingPercentage())
+
+	cases := map[time.Duration]int{
+		0 * time.Minute:  100,
+		5 * time.Minute:  80,
+		25 * time.Minute: 0,
+
+	}
+
+	for duration, expected := range cases {
+		p.StartTime = timeFunc().Add(-duration)
+		assert.Equal(t, expected, p.RemainingPercentage())
+	}
+}
